@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.oigbuy:siheng-inteface:1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/oigbuy/siheng-inteface/1.0.0-SNAPSHOT/siheng-inteface-1.0.0-20171130.105226-29.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/oigbuy/siheng-inteface/1.0.0-SNAPSHOT/siheng-inteface-1.0.0-20171130.105226-29-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/oigbuy/siheng-inteface/1.0.0-SNAPSHOT/siheng-inteface-1.0.0-20171130.105226-29-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="siheng_ebay:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="siheng_ebay.war">
+      <element id="artifact" artifact-name="siheng_ebay:war exploded" />
+    </root>
+  </artifact>
+</component>

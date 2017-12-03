@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/resources/sql/scripts/20171120095452_insert_t_platform_site_table.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/sql/scripts/20171123103001_create_t_country_freight.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/sql/scripts/20171214095452_alter_t_product_code_manager_table.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/sql/scripts/20171214215452_insert_t_ebay_fee_table.sql" dialect="MySQL" />
+  </component>
+</project>

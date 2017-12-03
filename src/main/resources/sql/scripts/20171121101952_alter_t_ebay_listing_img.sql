@@ -1,0 +1,1 @@
+alter table t_ebay_listing_img add column img_platform_id BIGINT(19) comment'图片平台关联表 id'; 

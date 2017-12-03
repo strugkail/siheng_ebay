@@ -1,0 +1,1 @@
+ALTER TABLE t_product_code_manager add PROFIT  DOUBLE(8,2) COMMENT'利润';

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+     http://www.springframework.org/schema/rabbit  
+     http://www.springframework.org/schema/rabbit/spring-rabbit-1.2.xsd">
+    
+    <!--配置connection-factory，指定连接rabbit server参数 -->
+    <rabbit:connection-factory id="connectionFactory" username="${rabbitmq.username}" password="${rabbitmq.password}"
+        host="${rabbitmq.host}" port="${rabbitmq.port}" />
+
+    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+    <rabbit:admin connection-factory="connectionFactory" /> 
+
+    <!--定义queue -->
+    <rabbit:queue name="queueProduct" durable="true" auto-delete="false" exclusive="false" />
+
+    <!-- 定义direct exchange，绑定baseExchange -->
+    <rabbit:direct-exchange name="exchangeTest"
+        durable="true" auto-delete="false" >
+        <rabbit:bindings>
+            <rabbit:binding queue="queueProduct" key="${rabbitmq.base.product.routingkey}"></rabbit:binding>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <!--定义rabbit template用于数据的接收和发送 -->
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="exchangeTest" message-converter="jackson2JsonMessageConverter"/>
+
+	<bean id="jackson2JsonMessageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter"/>  
+
+	<!--定义  mms queue -->
+    <rabbit:queue name="mmsSkuQueue" durable="true"  auto-delete="false" exclusive="false" /> 
+    <rabbit:queue name="mmsProductQueue" durable="true"  auto-delete="false" exclusive="false" /> 
+
+	<!-- 定义mmsExchange -->
+    <rabbit:direct-exchange name="mmsExchange" durable="true" auto-delete="false" >
+        <rabbit:bindings>
+            <rabbit:binding queue="mmsSkuQueue" key="${rabbitmq.mms.sku.routingkey}"></rabbit:binding>
+            <rabbit:binding queue="mmsProductQueue" key="${rabbitmq.mms.product.routingkey}"></rabbit:binding>
+            <rabbit:binding queue="mmsErrorQueue" key="${rabbitmq.mms.error.routingkey}"></rabbit:binding>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+ 	
+    <!-- 消息接收者 -->
+    <bean id="mmsSkuReceiver" class="com.oigbuy.jeesite.common.rabbitmq.receiver.MmsSkuConsumer"></bean> 
+
+    <!-- queue litener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queues="mmsSkuQueue" ref="mmsSkuReceiver" />
+    </rabbit:listener-container> 
+    
+     <!-- 消息接收者 -->
+    <bean id="mmsProductReceiver" class="com.oigbuy.jeesite.common.rabbitmq.receiver.MmsProductConsumer"></bean> 
+
+    <!-- queue litener 观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象 -->
+    <rabbit:listener-container connection-factory="connectionFactory">
+        <rabbit:listener queues="mmsProductQueue" ref="mmsProductReceiver" />
+    </rabbit:listener-container> 
+
+ 	<rabbit:queue name="mmsErrorQueue" durable="true"  auto-delete="false" exclusive="false" /> 
+
+</beans>
